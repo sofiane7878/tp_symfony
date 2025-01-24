@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Véhicule{% endblock %}
+
+{% block body %}
+    <h1>Détails du Véhicule</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Marque</th>
+                <td>{{ vehicule.marque }}</td>
+            </tr>
+            <tr>
+                <th>Modèle</th>
+                <td>{{ vehicule.modele }}</td>
+            </tr>
+            <tr>
+                <th>Immatriculation</th>
+                <td>{{ vehicule.immatricule }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ vehicule.prix }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ vehicule.statut ? 'Disponible' : 'Indisponible' }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de réservations</th>
+                <td>{{ reservationCount }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Commentaires</h2>
+
+    {% if vehicule.commentaires is not empty %}
+        <ul>
+            {% for commentaire in vehicule.commentaires %}
+                <li>
+                    <strong>{{ commentaire.content }}</strong><br>
+                    <em>Posté le {{ commentaire.dateComment ? commentaire.dateComment|date('Y-m-d H:i:s') : 'Inconnu' }}</em>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun commentaire pour ce véhicule.</p>
+    {% endif %}
+    
+    <a href="{{ path('app_commentaire_new') }}" class="btn btn-primary">Ajouter un commentaire</a>
+
+    <a href="{{ path('app_vehicule_index') }}" class="btn btn-secondary">Retour à la liste des véhicules</a>
+
+    <a href="{{ path('app_vehicule_delete', {'id': vehicule.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?');">Supprimer</a>
+{% endblock %}
